@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1> Home </h1>
+    <div class="page-header">
+        <h3> Click here to send "Hello World" to my FPGA! </h3>
+    </div>
+    <p>
+        <form action="/hello" method="post">
+            <input type="submit" class="btn btn-lg btn-default" value="Send"> 
+        </form>
+    </p>
+{% endblock content %}
