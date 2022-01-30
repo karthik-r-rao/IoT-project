@@ -1,17 +1,16 @@
-# Simple server - client demo
+# Simple server-client demo
 
-### Goal
+## Goals
 
-- Client must connect to server
-- Client must emit an event
-- Server must receive this, reply back with another event
-- Client must receive this
+- Client sends requests to server; Server responds (C-S-C)
+- Server initiates messages to client on some event (ex: button click) (S-C)
 
 ### Getting started
 
 - Server side
   - `Flask`
-  - `flask-socketio`
+  - `python-socketio`
+  - `flask-socketio` (TODO: check if really needed)
 - Client side
   - `python-socketio-client`
   - `websocket-client`

@@ -1,4 +1,10 @@
 {% extends "layout.html" %}
+{% block jumbotron %}
+<center> <h1> Home </h1> </center>
+{% endblock jumbotron %}
 {% block content %}
-    <h1> Home </h1>
+    <h3>Click here to send "Hello World" to my FPGA!</h3>
+    <form method="get" action="">
+        <button type="submit" class="btn btn-primary" name="status" value="1">Send</button>
+    </form>
 {% endblock content %}
