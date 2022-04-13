@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>IoT Project - EC833</title>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link type="text/css" rel="stylesheet"  href="../static/bootstrap.css">
+
+</head>
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+            <a class="navbar-brand" href="/">Home</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/about">About</a></li>
+                <li><a href="/team">Team</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="jumbotron">
+        <div class="container">
+          <h1> Forest Fire Detection and Management using IoT</h1>
+          <p> Saving wildlife,  one HTTP request at a time!</p>
+          <p><a class="btn btn-primary btn-lg" href="/about" role="button">Learn more &raquo;</a></p>
+        </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+        <div class="page-header">
+            <h1>Current state of the forest</h1>
+        </div>
+        <h3 id="temp" />
+        <h3 id="hum" />
+        <h3 id="hi" />
+        <h3 id="inf" />
+    </div>
+
+</body>
+<script>
+    class Queue
+    {
+        // Array is used to implement a Queue
+        constructor()
+        {
+            this.items = [];
+        }
+                    
+        // enqueue(item)
+        enqueue(element)
+        {    
+            // adding element to the queue
+            if(this.isFull()){
+                this.dequeue()
+            }
+            this.items.push(element);
+        }
+
+        // dequeue()
+        dequeue()
+        {
+            // removing element from the queue
+            // returns underflow when called 
+            // on empty queue
+            if(this.isEmpty())
+                return "Underflow";
+            return this.items.shift();
+        }
+
+        // front()
+        front()
+        {
+            // returns the Front element of 
+            // the queue without removing it.
+            if(this.isEmpty())
+                return "No elements in Queue";
+            return this.items[0];
+        }
+
+        // isEmpty()
+        isEmpty()
+        {
+            // return true if the queue is empty.
+            return this.items.length == 0;
+        }
+
+        // printQueue()
+        printQueue()
+        {
+            var str = "";
+            for(var i = 0; i < this.items.length; i++)
+                str += this.items[i] +" ";
+            return str;
+        }
+
+        // full
+        isFull()
+        {
+            // return true if the queue is full.
+            // size = 2
+            return this.items.length == 2;
+        }
+    }
+
+    var humidity = new Queue();
+    var temp = new Queue();
+    var hi = new Queue();
+    var infrared = new Queue();
+
+    function subscribe() {
+        var source = new EventSource('/count/stream');
+        var tempDivTemp = document.getElementById('temp');
+        var tempDivHum = document.getElementById('hum');
+        var tempDivHI = document.getElementById('hi');
+        var tempDivInf = document.getElementById('inf');
+        source.onmessage = function(e) {
+            if (e.data.indexOf('H') > -1){
+                var text = e.data.split(" ");
+                humidity.enqueue(text[1])
+                temp.enqueue(text[3])
+                hi.enqueue(text[6])
+            }
+            else{
+                infrared.enqueue(e.data)
+            }
+            tempDivTemp.innerHTML = "Temperature: " + temp.front();
+            tempDivHum.innerHTML = "Humidity: " + humidity.front();
+            tempDivHI.innerHTML = "Heat Index: " + hi.front();
+            tempDivInf.innerHTML = "Infrared Sensor Readings: " + infrared.front();
+            // console.log("T" + temp.printQueue());
+            // console.log("H" + humidity.printQueue());
+            // console.log("HI" + hi.printQueue());
+            // console.log("IF" + infrared.printQueue());
+        };
+    };
+    subscribe();
+</script>
+</html>
+

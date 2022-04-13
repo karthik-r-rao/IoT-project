@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>IoT Project - EC833</title>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link type="text/css" rel="stylesheet"  href="../static/bootstrap.css">
+
+</head>
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+            <a class="navbar-brand" href="/">Home</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/about">About</a></li>
+                <li><a href="/team">Team</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="blog-header">
+        <h1 class="blog-title">Project Blogs</h1>
+        <p class="lead blog-description">The official blogs released by the team.</p>
+        </div>
+
+        <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+            <div class="blog-post">
+            <h2 class="blog-post-title">Wireless Communication Between two ESP8266 Microcontrollers</h2>
+            <p class="blog-post-meta">April 10, 2022</p>
+
+            <p><b> Nowadays we can turn off the lights and fans in our house, sitting
+                in the office by just clicking a button on the phone. But how is this
+                possible? The answer to this is Wireless Communication. There are many
+                types of Wireless Communication but this article focusses only on the
+                communication between two NodeMCUs which gives a solution to the above
+                problem. </b></p>
+            <hr>
+            <p> NodeMCU is an open source IoT platform. It includes firmware which runs
+                on the ESP8266 Wi-Fi SoC(System On Chip) from Espressif Systems, and hardware which is based on the
+                ESP-12 module.</p>
+            <h2> About ESP8266 </h2>
+            <p> The ESP8266 WiFi Module is a self contained SoC with integrated TCP/IP
+                protocol stack that can give any microcontroller access to your WiFi
+                network. The ESP8266 is capable of either hosting an application or
+                offloading all Wi-Fi networking functions from another application
+                processor. Each ESP8266 module comes pre-programmed with an AT command
+                set firmware, meaning, you can simply hook this up to your Arduino
+                device and get about as much WiFi-ability as a WiFi Shield offers (and
+                that's just out of the box)! The ESP8266 module is an extremely cost
+                effective board with a huge, and ever growing, community.
+                
+                This module has a powerful enough on-board processing and storage
+                capability that allows it to be integrated with the sensors and other
+                application specific devices through its GPIOs with minimal development
+                up-front and minimal loading during runtime. Its high degree of on-chip
+                integration allows for minimal external circuitry, including the
+                front-end module, is designed to occupy minimal PCB area. The ESP8266
+                supports APSD for VoIP applications and Bluetooth co-existance
+                interfaces, it contains a self-calibrated RF allowing it to work under
+                all operating conditions, and requires no external RF parts.
+            </p>
+            <h2> Scenario </h2>
+            <p>
+                There are two Microcontrollers (NodeMCUs). One is the server and the other
+                is a client. The client sends a request and the server performs some action based on the request
+                (either it can perform some task or give back some information to the
+                client). Here, the client will send a request to turn an LED on or off.
+
+                WiFi capabilities for NodeMCU comes from the ESP8266 WiFi module present in it.
+
+                A NodeMCU can be coded in two modes, Station mode and Soft Access Point
+                (Soft AP) mode.
+            </p>
+            <h2> Who is who? </h2>
+            <p>
+                Devices that connect to Wi-Fi networks are called stations (STA).
+                Connection to Wi-Fi is provided by an access point(AP), that acts as
+                a hub for one or more stations. The access point on the other end is
+                connected to a wired network. An access point is usually integrated with
+                a router to provide access from a Wi-Fi network to the internet.
+
+                ESP8266 modules can operate as a station, so we can connect it to the
+                Wi-Fi network. It can also operate as a soft access point (soft-AP), to
+                establish its own Wi-Fi network. When the ESP8266 module is operating as
+                a soft access point, we can connect other stations to the ESP module.
+                ESP8266 is also able to operate as both a station and a soft access
+                point mode. This provides the possibility of building, for example, mesh
+                networks.
+            </p>
+            <h2> NodeMCU as an AP </h2>
+            <p>
+                <p><img src="../static/assets/image1.jpg"></p>
+
+                Set the SSID and password of your Access point. They can be anything but
+                <b>should contain at least 8 characters</b>>. Here we have added
+                password for secured communication but it can be done without a password
+                as well.
+
+                <p><img src="../static/assets/image2.jpg"></p>
+
+                Start the access point. Here myIP is the IP address of the AP. LED is
+                connected to pin 13 or D7.
+
+                <p><img src="../static/assets/image3.jpg"></p>
+
+                Here the first print statement prints the number of stations connected
+                to our access point. Then read the request sent by the client.
+
+                <p><img src="../static/assets/image4.jpg"></p>
+
+                Based on the request either turn on the LED or turn it off.
+            </p>
+            <h2> NodeMCU as a Station </h2>
+            <p>
+                <p><img src="../static/assets/image5.jpg"></p>
+
+                Host contains the IP address of the AP (Access point).
+
+                Here the SSID and password should be the same as the AP because we have to
+                connect this Station to the WiFi of the AP.(Here these names appear to
+                be contradicting. But it is OK as they are just identifiers.
+
+                <p><img src="../static/assets/image6.jpg"></p>
+
+                Connect the Station to the WiFi of the AP. The program won't proceed
+                further until the wifi is connected.
+
+                <p><img src="../static/assets/image7.jpg"></p>
+
+                Connect to the host and send the request. Here, we follow the standard
+                HTTP GET request format. We are continuously sending requests with a
+                delay of 3 seconds.
+            </p>
+            <h2> Output </h2>
+            <p>
+                <p><img src="../static/assets/image8.jpg"></p>
+
+                This is the output from the Serial monitor of the Access Point.
+                
+                <p><img src="../static/assets/image9.jpg"></p>
+                
+                This is the output from the Serial monitor of the station.
+            </p>
+            <h2> References </h2>
+            <p>
+                <ol>
+                    <li><a href="https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html">HTTP Basics</a></li>
+                    <li><a href="https://www.esp8266.com/"> ESP8266 community forum </a></li>
+                    <li><a href="http://www.tinyosshop.com/datasheet/ESP8266%20Command%20Doc.pdf"> Information about AT Commands </a></li>
+                </ol>
+            </p>
+            
+            </div><!-- /.blog-post -->
+
+        </div><!-- /.blog-main -->
+
+        
+
+        </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+</body>
+</html>
